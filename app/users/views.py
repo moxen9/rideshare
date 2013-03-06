@@ -3,12 +3,15 @@ from flask import (Blueprint, request, render_template, flash, g, session,
 
 from app import db
 from app.users.models import User
+from app.feedback.models import Feedback
 
 
 mod = Blueprint('users', __name__, url_prefix='/users')
 
+user = User("TestUser", "testemail@gmail.com", "testpass")
 
 @mod.route('/me/')
 def home():
     g.user = User('test', 'test@test.com', 'test')
-    return render_template("users/profile.html", user=g.user)
+    feedback = Feedback.query.filter_by(user_id=user.id).all()
+    return render_template("profile.html", user=user, feedback=feedback)

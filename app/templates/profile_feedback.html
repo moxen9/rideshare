@@ -1,0 +1,13 @@
+<h1>Feedback</h1>
+<table class="table">
+<tr>
+    <th>Rating</th>
+    <th>Description</th>
+</tr>
+{% for feed in feedback %}
+    <tr>
+        <td>{{feed.rating}}</td>
+        <td>{{feed.description}}</td>
+    </tr>
+{% endfor %}
+</table>

@@ -43,7 +43,12 @@
           <a class="brand" href="#">Rideshare</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
+            {% if user %}
+              <a href='/{{user.name}}/notifications/' class="navbar-link">Notifications</a>
+              Logged in as <a href="users/me/" class="navbar-link">{{user.name}}</a>
+            {% else %}
+              Logged in as <a href="/#" class="navbar-link">Guest</a>
+            {% endif %}
             </p>
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
