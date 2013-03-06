@@ -1,17 +1,26 @@
-from flask import (Blueprint, request, render_template, flash, g, session,
-                   redirect, url_for)
+from flask import Blueprint, render_template, g
 
-from app import db
 from app.users.models import User
-from app.feedback.models import Feedback
-
 
 mod = Blueprint('users', __name__, url_prefix='/users')
 
-user = User("TestUser", "testemail@gmail.com", "testpass")
+
+@mod.before_request
+def before_request():
+    g.user = User.query.filter_by(name='TestName').first()
+
 
 @mod.route('/me/')
 def home():
-    g.user = User('test', 'test@test.com', 'test')
-    feedback = Feedback.query.filter_by(user_id=user.id).all()
-    return render_template("profile.html", user=user, feedback=feedback)
+    feedback = g.user.feedback
+    return render_template("profile.html", user=g.user, feedback=feedback)
+
+
+@mod.route('/<user>/notifications/', methods=['GET'])
+def notifications(user):
+    user = User.query.filter_by(name=user).first()
+    notifications = user.notifications
+    if not notifications:
+        notifications = "No notifications"
+    return render_template('notifications.html', user=user,
+                           notifications=notifications)
