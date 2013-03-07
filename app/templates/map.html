@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Route Planning</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBXFuYqnvdzyzfn2RcxQT-NptcT1qsR2Ks&sensor=false" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    var map = null;
+    var geocoder = null;
+	var directions = null;
+	var isCreateHeadPoint = null;
+	var headMarker, tailMarker;
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("map_canvas"));
+        geocoder = new GClientGeocoder();
+		map.setCenter(new GLatLng(44.58530, -123.252370), 13);
+		directions = new GDirections(map);
+		isCreateHeadPoint = true;
+      }
+    }
+
+    function showAddress(address, flag) {
+      if (geocoder) {
+        geocoder.getLatLng(
+          address,
+          function(point) {
+            if (!point) {
+              alert(address + " not found");
+            } else {
+              if(flag){
+				map.setCenter(point, 13);
+				//var marker = new GMarker(point);
+				headMarker = new GMarker(point);
+				map.addOverlay(headMarker);
+
+				// As this is user-generated content, we display it as
+				// text rather than HTML to reduce XSS vulnerabilities.
+				// marker.openInfoWindow(document.createTextNode(address));
+			  } else {
+				map.setCenter(point, 13);
+				//var marker = new GMarker(point);
+				tailMarker = new GMarker(point);
+				map.addOverlay(tailMarker);
+
+				// As this is user-generated content, we display it as
+				// text rather than HTML to reduce XSS vulnerabilities.
+				// marker.openInfoWindow(document.createTextNode(address));
+			  }
+            }
+          }
+        );
+      }
+    }
+	
+	function do_directions(){
+		directions.load("from:" + headMarker.getPoint().lat()+ ", " + 
+                         headMarker.getPoint().lng() + 
+                         " to:" + tailMarker.getPoint().lat() + "," + 
+                         tailMarker.getPoint().lng(), 
+                         { getPolyline: true, getSteps: true });
+	}
+	
+	
+    </script>
+  </head>
+
+  <body onload="initialize()" onunload="GUnload()">
+    <form action="#" onsubmit="showAddress(this.source.value, true); return false">
+      <p>
+		Departure: 
+        <input type="text" size="60" name="source" value="" />
+        <input type="submit" value="Add" />
+      </p>
+    </form>
+	
+	<form action="#" onsubmit="showAddress(this.destination.value, false); return false">
+      <p>
+		Destination: 
+        <input type="text" size="60" name="destination" value="" />
+        <input type="submit" value="Add" />
+      </p>
+	  <div id="map_canvas" style="width: 500px; height: 300px"></div>
+    </form>
+	
+	<form action="#" onsubmit="do_directions(); return false">
+      <p>
+        <input type="submit" value="Get Directions!" />
+      </p>
+    </form>
+	
+	<form action="#" onsubmit="initialize(); return false">
+      <p>
+        <input type="submit" value="Reset" />
+      </p>
+    </form>
+  </body>
+</html>
