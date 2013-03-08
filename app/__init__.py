@@ -12,9 +12,9 @@ db.init_app(app)
 def before_request():
     g.db = db
     g.app = app
+    g.user = None
 
 # Blueprints
-
 from app.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
