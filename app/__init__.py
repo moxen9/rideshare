@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask, g, session
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -13,6 +13,7 @@ def before_request():
     g.db = db
     g.app = app
     g.user = None
+    session['username'] = 'TestName'
 
 # Blueprints
 from app.users.views import mod as usersModule

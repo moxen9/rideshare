@@ -42,19 +42,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Rideshare</a>
+          <a class="brand" href="{{ url_for("app.root") }}">Rideshare</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-            {% if user %}
-              <a href="{{ url_for("users.notifications", user=user.name) }}" class="navbar-link">Notifications</a>
-              Logged in as <a href="{{ url_for("users.home") }}" class="navbar-link">{{user.name}}</a>
+            {% if session.username %}
+              Logged in as <a href="{{ url_for("users.home") }}" class="navbar-link">{{session.username}}</a>
             {% else %}
               Logged in as <a href="/#" class="navbar-link">Guest</a>
             {% endif %}
             </p>
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
               <li><a href="{{ url_for("app.matching") }}">Match Making</a></li>
+              <li><a href="{{ url_for("users.notifications", user=session.username) }}" class="navbar-link">Notifications</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
