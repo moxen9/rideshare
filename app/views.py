@@ -16,6 +16,10 @@ def root():
     return render_template('index.html')
 
 
+@mod.route('/route', methods=['GET', 'POST'])
+def route():
+    return render_template('routes.html', user=g.user)
+
 @mod.route('/matching/', methods=['get', 'post'])
 def matching():
     return render_template('map.html')
