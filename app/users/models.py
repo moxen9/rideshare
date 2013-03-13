@@ -2,7 +2,6 @@ from app import db
 
 
 class User(db.Model):
-
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
@@ -22,20 +21,21 @@ class Feedback(db.Model):
     __tablename__ = 'feedback'
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer)
-
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    rater_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    comment = db.Column(db.String(50))
+    user_name = db.Column(db.String(50), db.ForeignKey("user.name"))
+    rater_name = db.Column(db.String(50), db.ForeignKey("user.name"))
 
     user = db.relationship("User", backref="feedback",
-                           foreign_keys=[user_id])
+                           foreign_keys=[user_name])
 
     rater = db.relationship("User", backref="feedback_given",
-                            foreign_keys=[rater_id])
+                            foreign_keys=[rater_name])
 
-    def __init__(self, rating, rater, user):
+    def __init__(self, rating, rater, user, comment=None):
+        self.comment = comment
         self.rating = rating
-        self.rater_id = rater.id
-        self.user_id = user.id
+        self.rater_name = rater.name
+        self.user_name = user.name
 
 
 class Notification(db.Model):
@@ -43,9 +43,10 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(50))
 
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_name = db.Column(db.String(50), db.ForeignKey("user.name"))
     user = db.relationship("User", backref="notifications",
-                           foreign_keys=[user_id])
+                           foreign_keys=[user_name])
 
-    def __init__(self, description):
+    def __init__(self, description, user):
+        self.user_name = user.name
         self.description = description

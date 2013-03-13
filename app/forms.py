@@ -7,4 +7,6 @@ class AddUser(Form):
     confirm_pass = PasswordField('confirm_pass', [Required()])
     email = TextField('email', [Required(), Email()])
 
-
+class LeaveFeedback(Form):
+    comment = TextField('comment')
+    rating = TextField('rating', [Required()])

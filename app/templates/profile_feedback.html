@@ -1,13 +1,23 @@
 <h2>Feedback</h2>
+<form method="POST">
 <table class="table">
 <tr>
-    <th>Rating</th>
-    <th>Description</th>
+    <th>Rater</th>
+    <th>Comment<th>
+    <th>Rating (1-10)</th>
 </tr>
 {% for feed in feedback %}
     <tr>
+        <td><a href="/users/{{feed.rater_name}}">{{feed.rater_name}}</a></td>
+        <td>{{feed.comment}}</td>
         <td>{{feed.rating}}</td>
-        <td>{{feed.description}}</td>
     </tr>
 {% endfor %}
+    <tr>
+        <td>{{user.name}}</td>
+        <td>{{form.comment}}</td>
+        <td>{{form.rating}}</td>
+    </tr>
 </table>
+<input type="submit" value="Leave Feedback"></input>
+</form>

@@ -10,7 +10,7 @@
 {% for notification in notifications %}
     <tr>
         <td>{{notification.description}}</td>
-        <td><a href="/users/{{notification.user_id}}">{{notification.user_id}}</a></td>
+        <td><a href="/users/{{notification.user_name}}">{{notification.user_name}}</a></td>
     </tr>
 {% endfor %}
 </table>

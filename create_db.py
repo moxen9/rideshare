@@ -7,17 +7,17 @@ db.create_all()
 test_user = User('TestName', 'testemail@gmail.com', 'testpass')
 rater = User('niceguy', 'noone@gmail.com', 'testpass')
 
-notification1 = Notification('Match found! (1)')
-notification2 = Notification('Match found! (2)')
-notification3 = Notification('Match found! (3)')
+notification1 = Notification('Match found! (1)', user=test_user)
+notification2 = Notification('Match found! (2)', user=test_user)
+notification3 = Notification('Match found! (3)', user=test_user)
 
 test_user.notifications.append(notification1)
 test_user.notifications.append(notification2)
 test_user.notifications.append(notification3)
 
-feedback1 = Feedback(5, rater, test_user)
-feedback2 = Feedback(3, rater, test_user)
-feedback3 = Feedback(1, rater, test_user)
+feedback1 = Feedback(10, rater, test_user, comment='Good work!')
+feedback2 = Feedback(5, rater, test_user, comment='He was alright.')
+feedback3 = Feedback(1, rater, test_user, comment='Horrible!')
 
 test_user.feedback.append(feedback1)
 test_user.feedback.append(feedback3)
