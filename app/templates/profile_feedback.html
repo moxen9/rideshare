@@ -13,11 +13,13 @@
         <td>{{feed.rating}}</td>
     </tr>
 {% endfor %}
+    {% if user != person %}
     <tr>
         <td>{{user.name}}</td>
         <td>{{form.comment}}</td>
         <td>{{form.rating}}</td>
     </tr>
+    {% endif %}
 </table>
 <input type="submit" value="Leave Feedback"></input>
 </form>

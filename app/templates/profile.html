@@ -4,7 +4,9 @@ This should be replaced with a proper profile page, but we will use this until i
 -->
 
 {% block content %}
+    {% if user != person %}
     <h1>{{person.name}}</h1>
     </br></br>
+    {% endif %}
     {% include "profile_feedback.html" %}
 {% endblock %}

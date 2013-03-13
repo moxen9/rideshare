@@ -14,8 +14,10 @@ def before_request():
 
 @mod.route('/me/')
 def home():
+    form = LeaveFeedback()
+
     feedback = g.user.feedback
-    return render_template("profile.html", user=g.user, person=g.user, feedback=feedback)
+    return render_template("profile.html", form=form, user=g.user, person=g.user, feedback=feedback)
 
 
 @mod.route('/<user_name>/notifications/', methods=['GET'])
@@ -30,7 +32,6 @@ def notifications(user_name):
 
 @mod.route('/<user_id>', methods=['GET','POST'])
 def view_profile(user_id):
-    form = LeaveFeedback()
 
     person = User.query.filter_by(name=user_id).first()
 
