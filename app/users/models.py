@@ -50,3 +50,15 @@ class Notification(db.Model):
     def __init__(self, description, user):
         self.user_name = user.name
         self.description = description
+
+class Route(db.Model):
+    __tablename__ = 'route'
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String(50))
+
+    user_name = db.Column(db.String(50), db.ForeignKey("user.name"))
+    user = db.relationship("User", backref="routes", foreign_keys=[user_name])
+
+    def __init__(self, address, user):
+    	self.user_name = user.name
+	self.address = address

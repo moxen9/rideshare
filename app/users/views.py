@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, g, request
 
-from app.users.models import User, Feedback, Notification
+from app.users.models import User, Feedback, Notification, Route
 from app.forms import LeaveFeedback
 from app import db
 
@@ -43,4 +43,14 @@ def view_profile(user_id):
         feedback = Feedback.query.filter_by(user_name=person.name).all()
         return render_template("profile.html",form=form, user=g.user, person=person, feedback=feedback)
     return "Profile not found."
+
+@mod.route('/<user_name>/routes/', methods=['GET'])
+def routes(user_name):
+    routes = Route.query.filter_by(user_name=user_name).all()
+    all_routes = Route.query.all()
+    print [route.user_name for route in all_routes]
+    if not routes:
+        routes = "No routes"
+    return render_template('routes.html', user=g.user,
+                           routes=routes)
 
